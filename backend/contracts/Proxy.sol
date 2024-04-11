@@ -1,4 +1,4 @@
-// SPDX0License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -11,6 +11,7 @@ contract Proxy {
     // Mappings
     mapping(address => uint256) public permittedAmount;
     mapping(address => bool) public rxAllowed;
+    mapping(address => bool) public isDelegated;
 
     // Modifiers:
 
@@ -30,6 +31,14 @@ contract Proxy {
         _;
     }
 
+    modifier OnlyDelegated() {
+        require(
+            isDelegated[msg.sender],
+            "This account is not delegated - permission denied."
+        );
+        _;
+    }
+
     // Constructor
     constructor(
         address payable[] memory _delegated,
@@ -43,17 +52,29 @@ contract Proxy {
             permittedAmount[_allowed_rx[i]] = _amountRx[i];
             rxAllowed[_allowed_rx[i]] = true;
         }
+        for (uint256 j = 0; j < _delegated.length; j++) {
+            isDelegated[_delegated[j]] = true;
+        }
+        // The owner is not allowed to receive it back from the delegate, but is allowed to withdraw at any time.
+        // After all, if he could not, we would burn cash.
     }
 
     // Functions
 
     function transferToPermitted(
-        address payable  _rx
+        address payable _rx
     )
         public
         payable
+        OnlyDelegated
         AllowedRx(_rx)
         AmountPermitted(msg.value, _rx)
         returns (bool success)
-    {}
+    {
+        // At every transaction, to a specific address, the limited budget decreases. It will require more
+        // cash from the owner and a further permission to use it later.
+        (success, ) = _rx.call{value: msg.value}("");
+        permittedAmount[_rx] -= msg.value;
+        return success;
+    }
 }
