@@ -9,6 +9,7 @@ contract Main {
     mapping(address => mapping(uint256 => address)) public ownerToContract;
     mapping(address => uint256) public amountOfContracts;
     mapping(address => address) public ownerOfContract; // Gets the owner of the contract
+    mapping(address => bool) public addressDelegated;
     //mapping(address => uint256) public amountFundedByOwner;
 
     // Events
@@ -23,6 +24,14 @@ contract Main {
         require(
             ownerOfContract[_rxContract] == msg.sender,
             "Only owner can call this function"
+        );
+        _;
+    }
+
+    modifier alreadyDelegated(address payable _delegated) {
+        require(
+            !addressDelegated[_delegated],
+            "Address already delegated - no re-ups."
         );
         _;
     }
@@ -53,6 +62,9 @@ contract Main {
         ] = proxy_address;
         amountOfContracts[msg.sender] += 1;
         ownerOfContract[proxy_address] = msg.sender;
+        for (uint256 j = 0; j < _delegate.length; j++) {
+            addressDelegated[_delegate[j]] = true;
+        }
         //(success, ) = proxy_address.call{value: msg.value}("");
         emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
     }
@@ -63,5 +75,14 @@ contract Main {
         (success, ) = _rxContract.call{value: msg.value}("");
         require(success, "Transaction Failed");
         return success;
+    }
+
+    function addDelegated(
+        address payable _newDelegate,
+        address payable _contractAddress
+    ) public onlyOwner(_contractAddress) alreadyDelegated(_newDelegate) {
+        Proxy proxy = Proxy(_contractAddress);
+        proxy.insertDelegated(_newDelegate);
+        addressDelegated[_newDelegate];
     }
 }

@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 contract Proxy {
     // Global Variables
     address public immutable delegator;
+    address public immutable rootContract;
     address payable[] public delegated;
     address payable[] public allowed_rx;
 
@@ -14,6 +15,14 @@ contract Proxy {
     mapping(address => bool) public isDelegated;
 
     // Modifiers:
+
+    modifier onlyRoot() {
+        require(
+            msg.sender == rootContract,
+            "Only root contract - not allowed."
+        );
+        _;
+    }
 
     modifier AllowedRx(address payable _wallet) {
         require(
@@ -46,6 +55,7 @@ contract Proxy {
         address payable[] memory _allowed_rx,
         uint256[] memory _amountRx
     ) {
+        rootContract = msg.sender;
         delegator = _delegator; // Beware: Msg.sender is the contract, not the owner.
         delegated = _delegated;
         allowed_rx = _allowed_rx;
@@ -79,6 +89,11 @@ contract Proxy {
         require(success, "Transfer failed");
         permittedAmount[_rx] -= _amount;
         return success;
+    }
+
+    function insertDelegated(address payable _newDelegated) external onlyRoot {
+        delegated.push(_newDelegated);
+        isDelegated[_newDelegated] = true;
     }
 
     fallback() external payable virtual {}
