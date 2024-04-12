@@ -8,6 +8,25 @@ respective ministerial tasks, in many cases we must ensure that the money which 
 
 The solution proposed here - Proxy Pay - is a decentralized solution which ensures that payments, loans, transactions and other financial procedures are trustlessly done in the way intended by the delegator, while giving the delegated control over the funds passed by the delegator.
 
+## Next Development Steps
+
+### Smart Contract Development
+
+1.  Withdraw funds for deployer;
+2.  Delete Delegates and Receivers;
+3.  Change the amounts required;
+
+## Web3 Integration
+
+1. (High Priority) How to integrate it with Minipay
+2. Use dApp Libraries (React Moralis or dApp, maybe even building it myself in ethers)
+
+## Front End Development
+
+1. Design general layout in React Native
+2. Make it responsible and decent in design, color palette and UX.
+
+
 ## Known Bugs (so Far):
 
 1. Needs to check if it is owners (Fixed)
