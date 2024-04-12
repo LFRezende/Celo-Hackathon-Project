@@ -20,8 +20,8 @@ The solution proposed here - Proxy Pay - is a decentralized solution which ensur
 
 4. The main contract has no money being sent from the delegator, hence there is no available cash for the contract to pull money from. (Fixed)
 
-5. Main contract doesn't recognize new receivers or delegates appended, although proxy does.
+5. Main contract doesn't recognize new receivers or delegates appended, although proxy does. (Fixed)
 
-6. Needs to pass the amount for each new receiver
+6. Needs to pass the amount for each new receiver. (Fixed)
 
-7. Receivers and Delegates can be doubly appended.
+7. Receivers and Delegates can be doubly appended.(Fixed)
