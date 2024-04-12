@@ -96,6 +96,11 @@ contract Proxy {
         isDelegated[_newDelegated] = true;
     }
 
+    function insertReceiver(address payable _newRx) external onlyRoot {
+        allowed_rx.push(_newRx);
+        rxAllowed[_newRx] = true;
+    }
+
     fallback() external payable virtual {}
 
     receive() external payable virtual {}

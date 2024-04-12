@@ -10,7 +10,7 @@ contract Main {
     mapping(address => uint256) public amountOfContracts;
     mapping(address => address) public ownerOfContract; // Gets the owner of the contract
     mapping(address => bool) public addressDelegated;
-    //mapping(address => uint256) public amountFundedByOwner;
+    mapping(address => bool) public addressReceived;
 
     // Events
     event delegationConfirmed(
@@ -36,13 +36,13 @@ contract Main {
         _;
     }
 
-    /*  modifier hasDepositedEnough(uint256 _fundAmount) {
+    modifier alreadyReceived(address payable _rx) {
         require(
-            amountFundedByOwner[msg.sender] >= _fundAmount,
-            "Not enough funds for this. Deposit some more."
+            !addressReceived[_rx],
+            "Address of receiver has already been appended - no re-ups."
         );
         _;
-    }*/
+    }
 
     function delegate(
         address payable[] calldata _delegate,
@@ -65,8 +65,9 @@ contract Main {
         for (uint256 j = 0; j < _delegate.length; j++) {
             addressDelegated[_delegate[j]] = true;
         }
-        //(success, ) = proxy_address.call{value: msg.value}("");
-        emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
+        for (uint256 k = 0; k < _allowedRx.length; k++)
+            //(success, ) = proxy_address.call{value: msg.value}("");
+            emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
     }
 
     function fundContract(
@@ -83,6 +84,15 @@ contract Main {
     ) public onlyOwner(_contractAddress) alreadyDelegated(_newDelegate) {
         Proxy proxy = Proxy(_contractAddress);
         proxy.insertDelegated(_newDelegate);
-        addressDelegated[_newDelegate];
+        addressDelegated[_newDelegate] = true;
+    }
+
+    function addReceiver(
+        address payable _rx,
+        address payable _contractAddress
+    ) public onlyOwner(_contractAddress) alreadyReceived(_rx) {
+        Proxy proxy = Proxy(_contractAddress);
+        proxy.insertReceiver(_rx);
+        addressReceived[_rx] = true;
     }
 }
