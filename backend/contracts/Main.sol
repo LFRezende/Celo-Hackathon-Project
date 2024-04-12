@@ -9,7 +9,7 @@ contract Main {
     mapping(address => mapping(uint256 => address)) public ownerToContract;
     mapping(address => uint256) public amountOfContracts;
     mapping(address => address) public ownerOfContract; // Gets the owner of the contract
-    mapping(address => uint256) public amountFundedByOwner;
+    //mapping(address => uint256) public amountFundedByOwner;
 
     // Events
     event delegationConfirmed(
@@ -27,20 +27,25 @@ contract Main {
         _;
     }
 
-    modifier hasDepositedEnough(uint256 _fundAmount) {
+    /*  modifier hasDepositedEnough(uint256 _fundAmount) {
         require(
             amountFundedByOwner[msg.sender] >= _fundAmount,
             "Not enough funds for this. Deposit some more."
         );
         _;
-    }
+    }*/
 
     function delegate(
         address payable[] calldata _delegate,
         address payable[] calldata _allowedRx,
         uint256[] calldata _amountRx
     ) public {
-        Proxy proxy_contract = new Proxy(_delegate, _allowedRx, _amountRx); // New contract
+        Proxy proxy_contract = new Proxy(
+            payable(msg.sender),
+            _delegate,
+            _allowedRx,
+            _amountRx
+        ); // New contract
         address payable proxy_address = payable(address(proxy_contract));
 
         ownerToContract[msg.sender][
@@ -53,21 +58,10 @@ contract Main {
     }
 
     function fundContract(
-        address payable _rxContract,
-        uint256 _fundAmount
-    )
-        public
-        payable
-        onlyOwner(_rxContract)
-        hasDepositedEnough(_fundAmount)
-        returns (bool success)
-    {
-        (success, ) = _rxContract.call{value: _fundAmount}("");
+        address payable _rxContract
+    ) public payable onlyOwner(_rxContract) returns (bool success) {
+        (success, ) = _rxContract.call{value: msg.value}("");
         require(success, "Transaction Failed");
         return success;
-    }
-
-    function deposit() public payable {
-        amountFundedByOwner[msg.sender] += msg.value;
     }
 }

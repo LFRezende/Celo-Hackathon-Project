@@ -10,12 +10,12 @@ The solution proposed here - Proxy Pay - is a decentralized solution which ensur
 
 ## Known Bugs (so Far):
 
-4. Needs to check if it is owners
+1. Needs to check if it is owners (Fixed)
 
-1. The proxy contract interprets the msg.sender as the contract who deployed it, not the owner who calls the
-   function at the main contract.
+2. The proxy contract interprets the msg.sender as the contract who deployed it, not the owner who calls the
+   function at the main contract. (Fixed)
 
-1. The proxy contract, at the function transferToPermitted, is subtracting cash from the account of the caller, not
-   the from the contract.
+3. The proxy contract, at the function transferToPermitted, is subtracting cash from the account of the caller, not
+   the from the contract.(Fixed)
 
-1. (Relates to 1.) The main contract has no money being sent from the delegator, hence there is no available cash for the contract to pull money from.
+4. The main contract has no money being sent from the delegator, hence there is no available cash for the contract to pull money from. (Fixed)
