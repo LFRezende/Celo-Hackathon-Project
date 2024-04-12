@@ -45,7 +45,7 @@ contract Proxy {
         address payable[] memory _allowed_rx,
         uint256[] memory _amountRx
     ) {
-        delegator = msg.sender;
+        delegator = msg.sender; // Beware: Msg.sender is the contract, not the owner.
         delegated = _delegated;
         allowed_rx = _allowed_rx;
         for (uint256 i = 0; i < _amountRx.length; i++) {
@@ -77,4 +77,7 @@ contract Proxy {
         permittedAmount[_rx] -= msg.value;
         return success;
     }
+
+    fallback() payable external virtual {}
+    receive() payable external virtual {}
 }

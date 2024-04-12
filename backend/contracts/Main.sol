@@ -8,7 +8,7 @@ contract Main {
     // Mappings Main
     mapping(address => mapping(uint256 => address)) public ownerToContract;
     mapping(address => uint256) public amountOfContracts;
-    mapping(address => bool) public isOwnerOfContract; // Gets the owner of the contract
+    mapping(address => address) public ownerOfContract; // Gets the owner of the contract
     mapping(address => uint256) public amountFundedByOwner;
 
     // Events
@@ -21,7 +21,7 @@ contract Main {
     // Modifiers:
     modifier onlyOwner(address payable _rxContract) {
         require(
-            isOwnerOfContract[_rxContract],
+            ownerOfContract[_rxContract] == msg.sender,
             "Only owner can call this function"
         );
         _;
@@ -39,7 +39,7 @@ contract Main {
         address payable[] calldata _delegate,
         address payable[] calldata _allowedRx,
         uint256[] calldata _amountRx
-    ) public payable returns (bool success) {
+    ) public {
         Proxy proxy_contract = new Proxy(_delegate, _allowedRx, _amountRx); // New contract
         address payable proxy_address = payable(address(proxy_contract));
 
@@ -47,11 +47,9 @@ contract Main {
             amountOfContracts[msg.sender]
         ] = proxy_address;
         amountOfContracts[msg.sender] += 1;
-
+        ownerOfContract[proxy_address] = msg.sender;
         //(success, ) = proxy_address.call{value: msg.value}("");
         emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
-
-        return success;
     }
 
     function fundContract(
