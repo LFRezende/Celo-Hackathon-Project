@@ -95,4 +95,30 @@ contract Main {
         proxy.insertReceiver(_rx);
         addressReceived[_rx] = true;
     }
+
+    function deleteReceiver(
+        address payable _rx,
+        address payable _contractAddress
+    ) public onlyOwner(_contractAddress) {
+        require(
+            addressReceived[_rx],
+            "Can't delete receiver that has not been appended."
+        );
+        Proxy proxy = Proxy(_contractAddress);
+        proxy.eraseReceiver(_rx);
+        addressReceived[_rx] = false;
+    }
+
+    function deleteDelegate(
+        address payable _delegate,
+        address payable _contractAddress
+    ) public onlyOwner(_contractAddress) {
+        require(
+            addressReceived[_delegate],
+            "Can't delete receiver that has not been appended."
+        );
+        Proxy proxy = Proxy(_contractAddress);
+        proxy.eraseDelegate(_delegate);
+        addressDelegated[_delegate] = false;
+    }
 }

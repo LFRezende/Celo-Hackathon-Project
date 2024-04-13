@@ -12,6 +12,8 @@ contract Proxy {
     // Mappings
     mapping(address => uint256) public permittedAmount;
     mapping(address => bool) public rxAllowed;
+    mapping(address => uint256) public rxIndex;
+    mapping(address => uint256) public delIndex;
     mapping(address => bool) public isDelegated;
 
     // Modifiers:
@@ -62,9 +64,11 @@ contract Proxy {
         for (uint256 i = 0; i < _amountRx.length; i++) {
             permittedAmount[_allowed_rx[i]] = _amountRx[i];
             rxAllowed[_allowed_rx[i]] = true;
+            rxIndex[_allowed_rx[i]] = i;
         }
         for (uint256 j = 0; j < _delegated.length; j++) {
             isDelegated[_delegated[j]] = true;
+            delIndex[_delegated[j]] = j;
         }
         // The owner is not allowed to receive it back from the delegate, but is allowed to withdraw at any time.
         // After all, if he could not, we would burn cash.
@@ -100,6 +104,10 @@ contract Proxy {
         allowed_rx.push(_newRx);
         rxAllowed[_newRx] = true;
     }
+
+    function eraseReceiver(address payable _oldRx) external onlyRoot {}
+
+    function eraseDelegate(address payable _oldDelegate) external onlyRoot {}
 
     fallback() external payable virtual {}
 
