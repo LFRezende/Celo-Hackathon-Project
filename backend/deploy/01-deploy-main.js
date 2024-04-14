@@ -2,6 +2,7 @@ const { network, ethers } = require("hardhat"); // BEWARE THE CURLY --> GRABS ON
 
 const { getNamedAccounts } = require("hardhat"); // Always import it for getting names
 
+
 module.exports = async ({ getNamedAccounts, deployments }) => {
   // Getting the deployment data from deployments
   const { deploy, log } = deployments;
@@ -11,10 +12,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const chainId = network.config.chainId;
 
   // Deploying the contract without the address in mind (modularized)
-  const arguments = [];
+
   const fundMe = await deploy("Main", {
     from: deployer,
-    args: arguments,
+    args: [],
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
