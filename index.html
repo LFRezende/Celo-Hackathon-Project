@@ -21,7 +21,7 @@
     <section class="hero">
       <div class="container">
         <div class="center">
-          <h1 class="ubuntu-bold">Proxy Pay</h1>
+          <h1>Proxy Pay</h1>
           <p>Your money, your rules.</p>
         </div>
       </div>
@@ -52,9 +52,31 @@
           <input class="app-input" type="text" name="" id="inputRxAmount" />
         </div>
 
-        <button class="button" id="delegateButton">Create Delegate Contract</button>
+        <button class="button" id="delegateButton">
+          Create Delegate Contract
+        </button>
       </div>
-      <div class="box center"></div>
+      <div class="box center">
+        <p class="bold">Fund Delegate Contract</p>
+        <p>
+          Insert the amount of Wei you wish to fund your Delegate Contract with.
+        </p>
+        <div>
+          <input class="app-input" type="text" name="" id="inputFundDelegate" />
+          <div>
+            <button class="button" id="fundDelegateButton">Fund</button>
+          </div>
+        </div>
+      </div>
+      <div class="box center">
+        <p class="bold">Find Data of Delegate Contract</p>
+        <div>
+          <input class="app-input" type="text" name="" id="inputFindDelegate" />
+          <div>
+            <button class="button" id="retrieveData">Retrieve</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="index.js" type="module"></script>
