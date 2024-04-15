@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Proxy Pay</title>
@@ -31,13 +30,33 @@
       <div class="box center">
         <div>
           <p class="bold">Press the button below to launch app</p>
-          <button class="launch-app-button">Launch App</button>
+          <button class="button" id="launch-app-button">Launch App</button>
         </div>
       </div>
-      <div class="box center">Box 2</div>
-      <div class="box center">Box 3</div>
+      <div class="box center">
+        <p class="bold center">Delegate</p>
+        <div>
+          <div>
+            <p>Put the address to whom you wish to delegate.</p>
+            <input class="app-input" type="text" name="" id="inputDelegate" />
+          </div>
+        </div>
+        <div>
+          <p>
+            Insert the addresses you will allow the delegate to transfer to.
+          </p>
+          <input class="app-input" type="text" name="" id="inputRx" />
+        </div>
+        <div>
+          <p>Finally, input the amount</p>
+          <input class="app-input" type="text" name="" id="inputRxAmount" />
+        </div>
+
+        <button class="button" id="delegateButton">Create Delegate Contract</button>
+      </div>
+      <div class="box center"></div>
     </div>
 
-    <script type="module" src="/src/main.jsx"></script>
+    <script src="index.js" type="module"></script>
   </body>
 </html>
