@@ -48,7 +48,7 @@ contract Main {
         address payable[] calldata _delegate,
         address payable[] calldata _allowedRx,
         uint256[] calldata _amountRx
-    ) public {
+    ) public returns (address payable) {
         Proxy proxy_contract = new Proxy(
             payable(msg.sender),
             _delegate,
@@ -65,16 +65,19 @@ contract Main {
         for (uint256 j = 0; j < _delegate.length; j++) {
             addressDelegated[_delegate[j]] = true;
         }
-        for (uint256 k = 0; k < _allowedRx.length; k++)
-            //(success, ) = proxy_address.call{value: msg.value}("");
-            emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
+        for (uint256 k = 0; k < _allowedRx.length; k++) {
+            addressReceived[_allowedRx[k]] = true;
+        }
+
+        emit delegationConfirmed(msg.sender, _delegate, _allowedRx);
+        return proxy_address;
     }
 
     function fundContract(
         address payable _rxContract
     ) public payable onlyOwner(_rxContract) returns (bool success) {
         (success, ) = _rxContract.call{value: msg.value}("");
-        require(success, "Transaction Failed");
+        require(success, "Transaction Failed my son");
         return success;
     }
 
@@ -121,4 +124,19 @@ contract Main {
         proxy.eraseDelegate(_delegate);
         addressDelegated[_delegate] = false;
     }
+
+    function getLastDelegateContract(
+        address payable owner
+    ) public view returns (address) {
+        require(ownerToContract[owner][0] != address(0), "Nope.");
+        uint256 index;
+        for (uint256 j = 0; ownerToContract[owner][j] != address(0); j++) {
+            index = j;
+        }
+        return ownerToContract[owner][index];
+    }
+
+    fallback() external payable virtual {}
+
+    receive() external payable virtual {}
 }

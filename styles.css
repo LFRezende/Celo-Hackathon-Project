@@ -94,6 +94,10 @@ body {
   text-align: center;
 }
 
+.smaller-text{
+  font-size:smaller;
+}
+
 .container-box {
   background-color: #f2f2f2; /* Faint gray background color */
   padding: 30px;

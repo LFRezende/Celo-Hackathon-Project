@@ -28,6 +28,10 @@ export const abi = [
     type: "event",
   },
   {
+    stateMutability: "payable",
+    type: "fallback",
+  },
+  {
     inputs: [
       {
         internalType: "address payable",
@@ -139,7 +143,13 @@ export const abi = [
       },
     ],
     name: "delegate",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -201,6 +211,25 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: "address payable",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "getLastDelegateContract",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "",
         type: "address",
@@ -240,5 +269,9 @@ export const abi = [
     ],
     stateMutability: "view",
     type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
   },
 ];

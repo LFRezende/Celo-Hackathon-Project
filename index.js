@@ -13,11 +13,14 @@ let inputRx = document.getElementById("inputRx");
 let inputRxAmount = document.getElementById("inputRxAmount");
 let inputDelegateButton = document.getElementById("delegateButton");
 let inputFundDelegateContract = document.getElementById("inputFundDelegate");
+let fundDelegateButton = document.getElementById("fundDelegateButton");
+let inputFundDelAddress = document.getElementById("inputFundDelAddress");
 
 launchAppButton.onclick = connectWallet;
 inputDelegateButton.onclick = createDelegation;
-inputFundDelegateContract.onclick = fundDelegateContract;
+fundDelegateButton.onclick = fundDelegateContract;
 
+// ---------- Web 3 Integration Functions ------------ //
 async function connectWallet() {
   if (typeof window.ethereum != "undefined") {
     await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -29,12 +32,14 @@ async function createDelegation() {
   const delegateAddress = inputDelegate.value;
   const rxAddress = inputRx.value;
   const rxAmount = inputRxAmount.value;
-  console.log(delegateAddress);
   if (typeof window.ethereum != "undefined") {
     console.log("There is a wallet connected, proceed.");
     const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = web3Provider.getSigner();
-    console.log([web3Provider, signer]);
+    const wallet = await signer.getAddress();
+    console.log("Heeeeere");
+    console.log(wallet);
+    console.log("Heeeeere");
 
     // Let's get the contract from the components.
     const contract = new ethers.Contract(contractAddress, abi, signer);
@@ -46,6 +51,12 @@ async function createDelegation() {
         [rxAddress],
         [rxAmount]
       );
+
+      console.log(txResponse);
+      console.log("yoooooo");
+      const delAddress = await contract.getLastDelegateContract(wallet);
+      console.log(delAddress);
+      changeDelegateDiv(delAddress);
     } catch (e) {
       console.log(e);
     }
@@ -54,16 +65,17 @@ async function createDelegation() {
 
 async function fundDelegateContract() {
   const ethAmount = inputFundDelegateContract.value;
+  const rxAddress = inputFundDelAddress.value;
   if (typeof window.ethereum != "undefined") {
     console.log("There is a wallet connected, proceed.");
     const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = web3Provider.getSigner();
-    console.log([web3Provider, signer]);
+    const wallet = await signer.getAddress();
 
     // Let's get the contract from the components.
     const contract = new ethers.Contract(contractAddress, abi, signer);
     try {
-      const txResponse = await contract.fundContract({
+      const txResponse = await contract.fundContract(rxAddress, {
         value: ethers.utils.parseEther(ethAmount),
       });
       console.log("Transfer done.");
@@ -71,4 +83,17 @@ async function fundDelegateContract() {
       console.log(e);
     }
   }
+}
+
+async function retrieveData() {}
+
+// ---------------- Web2 Functions -------------- //
+
+function changeDelegateDiv(contractAddress) {
+  let delegateDivContent = document.getElementById("delegateDiv");
+
+  delegateDivContent.innerHTML =
+    "<div><div><p class='bold'>You successfully created a Proxy Pay Contract! </p><p class='smaller-text'>" +
+    contractAddress +
+    "</p></div></div>";
 }
