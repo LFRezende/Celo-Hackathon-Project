@@ -43,6 +43,7 @@ body {
 
 .nav-links li a:hover {
   color: #d4d4d4;
+  text-decoration: underline;
 }
 
 .hero {

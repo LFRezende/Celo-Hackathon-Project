@@ -18,16 +18,8 @@ let inputFundDelAddress = document.getElementById("inputFundDelAddress");
 let launchAppParagraph = document.getElementById("launch-app-paragraph");
 let launchAppContainerDiv = document.getElementById("launch-app-container-div");
 
-launchAppButton.onclick = connectWallet;
-
 // ---------- Web 3 Integration Functions ------------ //
-async function connectWallet() {
-  if (typeof window.ethereum != "undefined") {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-    launchAppButton.innerHTML = "Connected Wallet";
-    launchAppParagraph.innerHTML =
-      "Congratulations! Now you can use the app as an Owner or as a Delegate.";
-    launchAppContainerDiv.innerHTML =
-      "<div class='box center'><a href='owner.html'> <div><button class='button'>Use as Owner</button> </a><a href='delegate.html'><button class='button'>Use as Delegate</button></a></div> </div>";
-  }
-}
+
+async function retrieveData() {}
+
+// ---------------- Web2 Functions -------------- //

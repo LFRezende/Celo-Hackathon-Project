@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 contract Proxy {
     // Global Variables
-    address public immutable delegator;
+    address payable public immutable delegator;
     address public immutable rootContract;
     address payable[] public delegated;
     address payable[] public allowed_rx;
@@ -108,6 +108,18 @@ contract Proxy {
     function eraseReceiver(address payable _oldRx) external onlyRoot {}
 
     function eraseDelegate(address payable _oldDelegate) external onlyRoot {}
+
+    function getDelegated() public view returns (address payable[] memory) {
+        return delegated;
+    }
+
+    function getAllowedRx() public view returns (address payable[] memory) {
+        return allowed_rx;
+    }
+
+    function getDelegator() public view returns (address payable) {
+        return delegator;
+    }
 
     fallback() external payable virtual {}
 

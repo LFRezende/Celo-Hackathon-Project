@@ -136,6 +136,28 @@ contract Main {
         return ownerToContract[owner][index];
     }
 
+    function getDelegateContractData(
+        address payable _proxy
+    )
+        public
+        view
+        returns (
+            uint256,
+            address payable,
+            address payable[] memory,
+            address payable[] memory
+        )
+    {
+        Proxy proxy = Proxy(_proxy);
+        uint256 proxy_Balance = address(proxy).balance;
+        return (
+            proxy_Balance,
+            proxy.getDelegator(),
+            proxy.getDelegated(),
+            proxy.getAllowedRx()
+        );
+    }
+
     fallback() external payable virtual {}
 
     receive() external payable virtual {}

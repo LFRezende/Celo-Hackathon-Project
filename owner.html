@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proxy Pay - Owner Page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">Proxy Pay</a>
+        <ul class="nav-links">
+          <li><a href="delegate.html">I'm a Delegate</a></li>
+          <li><a href="owner.html">I'm an Owner</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="hero">
+      <div class="container">
+        <div class="center">
+          <h1>Proxy Pay</h1>
+          <p>Your money, your rules.</p>
+        </div>
+      </div>
+    </section>
+    <div class="container-box">
+      <div class="box center" id="delegateDiv">
+        <p class="bold center">Delegate</p>
+        <div>
+          <div>
+            <p>Put the address to whom you wish to delegate.</p>
+            <input class="app-input" type="text" name="" id="inputDelegate" />
+          </div>
+        </div>
+        <div>
+          <p>
+            Insert the addresses you will allow the delegate to transfer to.
+          </p>
+          <input class="app-input" type="text" name="" id="inputRx" />
+        </div>
+        <div>
+          <p>Finally, input the amount</p>
+          <input class="app-input" type="text" name="" id="inputRxAmount" />
+        </div>
+
+        <button class="button" id="delegateButton">
+          Create Delegate Contract
+        </button>
+      </div>
+      <div class="box center">
+        <p class="bold">Fund Delegate Contract</p>
+        <p>Insert the address of the delegate contract</p>
+        <div>
+          <input
+            class="app-input"
+            type="text"
+            name=""
+            id="inputFundDelAddress"
+          />
+          <div>
+            <p>Insert the amount of ether to fund your contract</p>
+            <div>
+              <input
+                class="app-input"
+                type="text"
+                name=""
+                id="inputFundDelegate"
+              />
+            </div>
+            <button class="button" id="fundDelegateButton">Fund</button>
+          </div>
+        </div>
+      </div>
+      <div class="box center">
+        <p class="bold">Find Data of Delegate Contract</p>
+        <div>
+          <input class="app-input" type="text" name="" id="inputFindDelegate" />
+          <div>
+            <button class="button" id="retrieveData">Retrieve</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </body>
+  <script src="owner.js" type="module"></script>
+</html>

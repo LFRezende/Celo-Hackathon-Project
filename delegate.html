@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=7, initial-scale=1.0" />
+    <title>Proxy Pay - Delegate Page</title>
     <link rel="stylesheet" href="styles.css" />
-    <title>Proxy Pay</title>
   </head>
   <body>
     <nav class="navbar">
@@ -26,16 +26,15 @@
     </section>
     <div class="container-box">
       <div class="box center">
+        <p class="bold">Find Data of Delegate Contract</p>
         <div>
-          <p class="bold" id="launch-app-paragraph">Press the button below to launch app</p>
-          <button class="button" id="launch-app-button">Launch App</button>
+          <input class="app-input" type="text" name="" id="inputFindDelegate" />
+          <div>
+            <button class="button" id="retrieveData">Retrieve</button>
+          </div>
         </div>
       </div>
-      <div id = "launch-app-container-div">
-
-      </div>
-
-    
+    </div>
   </body>
-  <script src="index.js" type="module"></script>
+  <script src="delegate.js" type="module"></script>
 </html>

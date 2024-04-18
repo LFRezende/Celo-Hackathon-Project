@@ -212,6 +212,40 @@ export const abi = [
     inputs: [
       {
         internalType: "address payable",
+        name: "_proxy",
+        type: "address",
+      },
+    ],
+    name: "getDelegateContractData",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address payable[]",
+        name: "",
+        type: "address[]",
+      },
+      {
+        internalType: "address payable[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
         name: "owner",
         type: "address",
       },
