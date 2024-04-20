@@ -305,6 +305,25 @@ export const abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "_contract",
+        type: "address",
+      },
+    ],
+    name: "withdrawFromDelegateContract",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     stateMutability: "payable",
     type: "receive",
   },
@@ -444,6 +463,19 @@ export const proxyAbi = [
         internalType: "address payable[]",
         name: "",
         type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -608,6 +640,19 @@ export const proxyAbi = [
       {
         internalType: "bool",
         name: "success",
+        type: "bool",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
         type: "bool",
       },
     ],

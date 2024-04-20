@@ -40,6 +40,42 @@
         </div>
       </div>
       <div id="retrieveDataDivDelegate"></div>
+      <div class="box center">
+        <p class="bold">Transfer to Allowed Receiver</p>
+        <p>Insert the address of the contract of which you are a delegate</p>
+        <div>
+          <input
+            class="app-input"
+            type="text"
+            name=""
+            id="inputProxyContractAddress"
+          />
+          <div>
+            <p>Insert the address of the allowed recipient.</p>
+            <div>
+              <input
+                class="app-input"
+                type="text"
+                name=""
+                id="inputAllowedRxAddress"
+              />
+              <div>
+            <p>Insert the amount of ether to fund your contract</p>
+            <div>
+              <input
+                class="app-input"
+                type="text"
+                name=""
+                id="inputAmountToAllowedRx"
+              />
+            </div>
+            <button class="button" id="transferToAllowedRxButton">Fund</button>
+            <div id="txErrorDelegate">
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
   <script src="delegate.js" type="module"></script>

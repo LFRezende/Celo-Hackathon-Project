@@ -109,6 +109,12 @@ contract Proxy {
 
     function eraseDelegate(address payable _oldDelegate) external onlyRoot {}
 
+    function withdraw() public payable onlyRoot returns (bool) {
+        (bool success, ) = delegator.call{value: address(this).balance}("");
+        require(success, "Withdraw not Successful");
+        return success;
+    }
+
     function getDelegated() public view returns (address payable[] memory) {
         return delegated;
     }
@@ -119,6 +125,10 @@ contract Proxy {
 
     function getDelegator() public view returns (address payable) {
         return delegator;
+    }
+
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
     }
 
     fallback() external payable virtual {}

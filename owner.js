@@ -21,18 +21,22 @@ let launchAppContainerDiv = document.getElementById("launch-app-container-div");
 // Input proxy address to find delegate contract information
 let inputProxyAddress = document.getElementById("inputFindDelegate");
 let retrieveButton = document.getElementById("retrieveData");
-
-// Div to change when retrieval
+retrieveButton.onclick = retrieveData;
 let retrieveDataDiv = document.getElementById("retrieveDataDiv");
 
 inputDelegateButton.onclick = createDelegation;
 fundDelegateButton.onclick = fundDelegateContract;
-retrieveButton.onclick = retrieveData;
+
+// Assets for withdrawal
+let withdrawButton = document.getElementById("withdrawButton");
+let inputWithdraw = document.getElementById("inputWithdraw");
+withdrawButton.onclick = withdrawFunds;
 
 // ---------- Web 3 Integration Functions ------------ //
 
 async function createDelegation() {
   const delegateAddress = inputDelegate.value;
+  console.log(delegateAddress);
   const rxAddress = inputRx.value;
   const rxAmount = ethers.utils.parseEther(inputRxAmount.value);
   if (typeof window.ethereum != "undefined") {
@@ -117,6 +121,27 @@ async function retrieveData() {
   }
 }
 
+async function withdrawFunds() {
+  if (typeof window.ethereum != "undefined") {
+    console.log("withdraw - provider detected");
+    const proxyAddress = inputWithdraw.value; // ProxyAddress of the contract we wish to withdraw funds from.
+
+    const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = web3Provider.getSigner();
+    const wallet = web3Provider.getAddress();
+
+    const mainContract = new ethers.Contract(contractAddress, proxyAbi, signer);
+
+    try {
+      const txResponse = await mainContract.withdrawFromDelegateContract(
+        proxyAddress
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
 // ---------------- Web2 Functions -------------- //
 
 function changeDelegateDiv(contractAddress) {
@@ -139,7 +164,7 @@ function returnRetrieveData(proxy_Data) {
   retrieveDataDiv.innerHTML =
     "<div class='box center'><div><p class='bold'>Balance: <div>" +
     proxy_Balance +
-    "</div></p></div><div><p class='bold way-smaller'>Delegator:<div class = 'way-smaller'> " +
+    "</div></p></div><div><p class='bold way-smaller'>Owner:<div class = 'way-smaller'> " +
     proxy_Delegator +
     "</div></p></div><div><p class='bold way-smaller'>Delegated:<div class = 'way-smaller'>" +
     proxy_Delegated +
