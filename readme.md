@@ -19,13 +19,11 @@ The solution proposed here - Proxy Pay - is a decentralized solution which ensur
 ## Web3 Integration
 
 1. (High Priority) How to integrate it with Minipay
-2. Use dApp Libraries (React Moralis or dApp, maybe even building it myself in ethers)
 
 ## Front End Development
 
 1. Design general layout in React Native
 2. Make it responsible and decent in design, color palette and UX.
-
 
 ## Known Bugs (so Far):
 
@@ -44,3 +42,14 @@ The solution proposed here - Proxy Pay - is a decentralized solution which ensur
 6. Needs to pass the amount for each new receiver. (Fixed)
 
 7. Receivers and Delegates can be doubly appended.(Fixed)
+
+# Last PipeLine
+
+## Make Minimal Delegate Functions Works
+
+- Retrieve Data
+- Fund Receivers
+- Check that the amount you can finance is limited.
+
+# Integrate with minipay and Android Studio
+
