@@ -109,8 +109,11 @@ contract Proxy {
 
     function eraseDelegate(address payable _oldDelegate) external onlyRoot {}
 
-    function withdraw() public payable onlyRoot returns (bool) {
-        (bool success, ) = delegator.call{value: address(this).balance}("");
+    function withdraw() public payable returns (bool) {
+        require(msg.sender == delegator, "U are not the delegator");
+        (bool success, ) = payable(msg.sender).call{
+            value: address(this).balance
+        }("");
         require(success, "Withdraw not Successful");
         return success;
     }

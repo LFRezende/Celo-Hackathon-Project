@@ -101,7 +101,7 @@ contract Main {
 
     function withdrawFromDelegateContract(
         address payable _contract
-    ) public onlyOwner(_contract) returns (bool) {
+    ) public payable onlyOwner(_contract) returns (bool) {
         Proxy proxy = Proxy(_contract);
         bool success = proxy.withdraw();
         return success;

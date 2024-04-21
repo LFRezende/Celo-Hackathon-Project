@@ -82,7 +82,7 @@ async function transferToAllowedRx() {
         `Transfer from ${wallet} to ${allowedRxAddress} of ${amountToAllowedRx} done.`
       );
       console.log(`Value of txResponse: ${txResponse}`);
-      txErrorDelegate.innerHTML = "✅ Transaction Approved! ✅ ";
+      txErrorDelegate.innerHTML = "✅ Transaction Approved! ✅";
     } catch (e) {
       console.log(e);
       txErrorDelegate.innerHTML = "❌ Transaction Rejected ❌ ";

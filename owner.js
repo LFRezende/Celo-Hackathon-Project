@@ -32,6 +32,9 @@ let withdrawButton = document.getElementById("withdrawButton");
 let inputWithdraw = document.getElementById("inputWithdraw");
 withdrawButton.onclick = withdrawFunds;
 
+// Error Handling
+let txErrorWithdraw = document.getElementById("txErrorWithdraw");
+
 // ---------- Web 3 Integration Functions ------------ //
 
 async function createDelegation() {
@@ -56,7 +59,8 @@ async function createDelegation() {
         [rxAddress],
         [rxAmount]
       );
-      console.log(txResponse);
+      const txReceipt = await txResponse.wait();
+      console.log(txReceipt);
     } catch (e) {
       console.log(e);
     }
@@ -128,28 +132,30 @@ async function withdrawFunds() {
 
     const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = web3Provider.getSigner();
-    const wallet = web3Provider.getAddress();
+    const wallet = signer.getAddress();
 
-    const mainContract = new ethers.Contract(contractAddress, proxyAbi, signer);
+    //const mainContract = new ethers.Contract(contractAddress, abi, signer);
+    const proxyContract = new ethers.Contract(proxyAddress, proxyAbi, signer);
 
     try {
-      const txResponse = await mainContract.withdrawFromDelegateContract(
-        proxyAddress
-      );
+      const txResponse = await proxyContract.withdraw();
+      console.log(txResponse);
+      txErrorWithdraw.innerHTML = "✅ Transaction Approved! ✅";
     } catch (e) {
       console.log(e);
+      txErrorWithdraw.innerHTML = "❌ Transaction Rejected ❌ ";
     }
   }
 }
 
 // ---------------- Web2 Functions -------------- //
 
-function changeDelegateDiv(contractAddress) {
+function changeDelegateDiv(proxyAddress) {
   let delegateDivContent = document.getElementById("delegateDiv");
 
   delegateDivContent.innerHTML =
     "<div><div><p class='bold'>You successfully created a Proxy Pay Contract! </p><p class='smaller-text'>" +
-    contractAddress +
+    proxyAddress +
     "</p></div></div>";
 }
 

@@ -2,7 +2,7 @@ const { network, ethers } = require("hardhat"); // BEWARE THE CURLY --> GRABS ON
 
 const { getNamedAccounts } = require("hardhat"); // Always import it for getting names
 
-
+const { verify } = require("../utils/verify.js");
 module.exports = async ({ getNamedAccounts, deployments }) => {
   // Getting the deployment data from deployments
   const { deploy, log } = deployments;
@@ -13,10 +13,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   // Deploying the contract without the address in mind (modularized)
 
-  const fundMe = await deploy("Main", {
+  const main = await deploy("Main", {
     from: deployer,
     args: [],
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
+
+  // Verifying Contract
+  if (network.name != "hardhat" && process.env.ETHERSCAN_API_KEY) {
+    await verify(main.address);
+  }
 };

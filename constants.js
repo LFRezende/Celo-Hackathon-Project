@@ -320,7 +320,7 @@ export const abi = [
         type: "bool",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
