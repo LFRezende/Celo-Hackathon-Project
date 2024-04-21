@@ -24,6 +24,9 @@ launchAppButton.onclick = connectWallet;
 async function connectWallet() {
   if (typeof window.ethereum != "undefined") {
     await window.ethereum.request({ method: "eth_requestAccounts" });
+    if (window.ethereum.isMiniPay) {
+      console.log("MiniPayWallet detected.");
+    }
     launchAppButton.innerHTML = "Connected Wallet";
     launchAppParagraph.innerHTML =
       "Congratulations! Now you can use the app as an Owner or as a Delegate.";
